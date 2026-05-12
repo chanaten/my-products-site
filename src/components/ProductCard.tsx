@@ -5,13 +5,12 @@ export default function ProductCard({ product }: { product: Product }) {
   return (
     <Link
       href={`/products/${product.slug}`}
-      className="group relative rounded-2xl border border-zinc-200/70 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-zinc-200/50"
+      className="group block border-b border-zinc-200/60 pb-6 transition-opacity hover:opacity-70"
     >
-      <div className="mb-4 aspect-video rounded-xl bg-gradient-to-br from-zinc-100 to-zinc-200 transition-transform duration-300 group-hover:scale-[1.02]" />
       <h2 className="mb-1.5 text-lg font-semibold text-zinc-900">
         {product.title}
       </h2>
-      <p className="mb-4 text-sm leading-relaxed text-zinc-500">
+      <p className="mb-3 text-sm leading-relaxed text-zinc-500">
         {product.description}
       </p>
       <div className="flex flex-wrap gap-1.5">
