@@ -28,10 +28,6 @@ export default async function ProductPage({
         Back
       </Link>
 
-      <div className="mb-8 overflow-hidden rounded-2xl border border-zinc-200/60 bg-white">
-        <div className="aspect-video bg-gradient-to-br from-zinc-100 to-zinc-200" />
-      </div>
-
       <header className="mb-10">
         <h1 className="mb-3 text-3xl font-bold tracking-tight">
           {product.title}
