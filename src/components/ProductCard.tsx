@@ -1,7 +1,13 @@
+"use client"
+
+import { useRef } from "react"
+import { animate } from "animejs"
 import Link from "next/link"
 import type { Product } from "@/data/products"
 
 export default function ProductCard({ product, index }: { product: Product; index?: number }) {
+  const ref = useRef<HTMLAnchorElement>(null)
+
   const gradients = [
     "from-violet-100 to-fuchsia-200",
     "from-sky-100 to-cyan-200",
@@ -12,12 +18,57 @@ export default function ProductCard({ product, index }: { product: Product; inde
   ]
   const gradient = gradients[(index ?? 0) % gradients.length]
 
+  function handleMouseEnter() {
+    const el = ref.current
+    if (!el) return
+    animate(el, {
+      translateY: -6,
+      boxShadow: "0 12px 32px rgba(0,0,0,0.08)",
+      duration: 400,
+      ease: "outSpring",
+      composition: "blend",
+    })
+    const banner = el.querySelector(".card-banner")
+    if (banner) {
+      animate(banner, {
+        scale: 1.03,
+        duration: 400,
+        ease: "outSpring",
+        composition: "blend",
+      })
+    }
+  }
+
+  function handleMouseLeave() {
+    const el = ref.current
+    if (!el) return
+    animate(el, {
+      translateY: 0,
+      boxShadow: "0 0px 0px rgba(0,0,0,0)",
+      duration: 400,
+      ease: "outSpring",
+      composition: "blend",
+    })
+    const banner = el.querySelector(".card-banner")
+    if (banner) {
+      animate(banner, {
+        scale: 1,
+        duration: 400,
+        ease: "outSpring",
+        composition: "blend",
+      })
+    }
+  }
+
   return (
     <Link
+      ref={ref}
       href={`/products/${product.slug}`}
-      className="group block rounded-2xl border border-zinc-200/60 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-zinc-200/50"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className="group block rounded-2xl border border-zinc-200/60 bg-white"
     >
-      <div className={`aspect-video rounded-t-2xl bg-gradient-to-br ${gradient}`} />
+      <div className={`card-banner aspect-video rounded-t-2xl bg-gradient-to-br ${gradient}`} />
       <div className="p-5">
         <h2 className="mb-1 text-lg font-semibold text-zinc-900">
           {product.title}

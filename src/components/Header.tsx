@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect, useRef } from "react"
+import { animate } from "animejs"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -12,6 +14,54 @@ const links = [
 
 export default function Header() {
   const pathname = usePathname()
+  const indicatorRef = useRef<HTMLSpanElement>(null)
+  const navRef = useRef<HTMLUListElement>(null)
+
+  useEffect(() => {
+    const indicator = indicatorRef.current
+    if (!indicator) return
+
+    const activeLink = navRef.current?.querySelector<HTMLLIElement>(
+      `li a[href="${pathname}"]`,
+    )
+    if (!activeLink) {
+      animate(indicator, {
+        opacity: 0,
+        duration: 200,
+        ease: "outCubic",
+      })
+      return
+    }
+
+    const { offsetLeft, offsetWidth } = activeLink.parentElement!
+    animate(indicator, {
+      left: offsetLeft,
+      width: offsetWidth,
+      opacity: 1,
+      duration: 300,
+      ease: "outCubic",
+    })
+  }, [pathname])
+
+  function handleMouseEnter(e: React.MouseEvent<HTMLAnchorElement>) {
+    const link = e.currentTarget
+    animate(link, {
+      scale: 1.05,
+      duration: 200,
+      ease: "outSpring",
+      composition: "blend",
+    })
+  }
+
+  function handleMouseLeave(e: React.MouseEvent<HTMLAnchorElement>) {
+    const link = e.currentTarget
+    animate(link, {
+      scale: 1,
+      duration: 200,
+      ease: "outSpring",
+      composition: "blend",
+    })
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-zinc-200/60 bg-white/70 backdrop-blur-md">
@@ -22,11 +72,16 @@ export default function Header() {
         >
           Products
         </Link>
-        <ul className="flex items-center gap-8 text-sm">
+        <ul
+          ref={navRef}
+          className="relative flex items-center gap-8 text-sm"
+        >
           {links.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
                 className={`relative transition-colors duration-200 ${
                   pathname === link.href
                     ? "text-zinc-900"
@@ -34,12 +89,13 @@ export default function Header() {
                 }`}
               >
                 {link.label}
-                {pathname === link.href && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-px bg-zinc-900" />
-                )}
               </Link>
             </li>
           ))}
+          <span
+            ref={indicatorRef}
+            className="pointer-events-none absolute -bottom-1 h-px bg-zinc-900"
+          />
         </ul>
       </nav>
     </header>

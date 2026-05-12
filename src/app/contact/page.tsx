@@ -1,8 +1,63 @@
+"use client"
+
+import { useEffect, useRef } from "react"
+import { animate, stagger, type JSAnimation } from "animejs"
+
 export default function Contact() {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const h1 = el.querySelector("h1")
+    const desc = el.querySelector(".description")
+    const formFields = el.querySelectorAll(".form-field")
+    const button = el.querySelector(".submit-btn")
+
+    const anims = [
+      h1 &&
+        animate(h1, {
+          opacity: [0, 1],
+          translateY: [20, 0],
+          duration: 600,
+          ease: "outCubic",
+        }),
+      desc &&
+        animate(desc, {
+          opacity: [0, 1],
+          translateY: [16, 0],
+          duration: 500,
+          delay: 150,
+          ease: "outCubic",
+        }),
+      formFields.length &&
+        animate(formFields, {
+          opacity: [0, 1],
+          translateY: [16, 0],
+          duration: 500,
+          delay: stagger(80, { from: "first" }),
+          ease: "outCubic",
+        }),
+      button &&
+        animate(button, {
+          opacity: [0, 1],
+          translateY: [12, 0],
+          duration: 500,
+          delay: 400,
+          ease: "outCubic",
+        }),
+    ].filter((a): a is JSAnimation => !!a)
+
+    return () => {
+      anims.forEach((a) => a.revert())
+    }
+  }, [])
+
   return (
-    <div className="mx-auto max-w-2xl px-6 py-16 sm:py-24">
+    <div ref={ref} className="mx-auto max-w-2xl px-6 py-16 sm:py-24">
       <h1 className="mb-2 text-3xl font-bold tracking-tight">Contact</h1>
-      <p className="mb-10 text-base text-zinc-500">
+      <p className="description mb-10 text-base text-zinc-500">
         Have a question or want to work together? Send me a message.
       </p>
       <form
@@ -10,7 +65,7 @@ export default function Contact() {
         method="POST"
         className="space-y-5"
       >
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="form-field grid gap-5 sm:grid-cols-2">
           <div>
             <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-zinc-700">
               Name
@@ -36,7 +91,7 @@ export default function Contact() {
             />
           </div>
         </div>
-        <div>
+        <div className="form-field">
           <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-zinc-700">
             Message
           </label>
@@ -50,7 +105,7 @@ export default function Contact() {
         </div>
         <button
           type="submit"
-          className="inline-flex h-10 items-center rounded-xl bg-zinc-900 px-5 text-sm font-medium text-white transition-all hover:bg-zinc-700 active:scale-95"
+          className="submit-btn inline-flex h-10 items-center rounded-xl bg-zinc-900 px-5 text-sm font-medium text-white transition-all hover:bg-zinc-700 active:scale-95"
         >
           Send Message
         </button>
