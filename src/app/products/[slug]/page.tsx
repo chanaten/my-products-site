@@ -20,22 +20,27 @@ export default async function ProductPage({
     <div className="mx-auto max-w-3xl px-6 py-16">
       <Link
         href="/"
-        className="mb-8 inline-flex text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+        className="mb-8 inline-flex items-center gap-1 text-sm text-zinc-400 transition-colors hover:text-zinc-900"
       >
-        &larr; Back to products
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="stroke-current">
+          <path d="M10 12L6 8L10 4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        Back
       </Link>
 
-      <div className="mb-8 aspect-video rounded-xl bg-zinc-100 dark:bg-zinc-800" />
+      <div className="mb-8 overflow-hidden rounded-2xl border border-zinc-200/60 bg-white">
+        <div className="aspect-video bg-gradient-to-br from-zinc-100 to-zinc-200" />
+      </div>
 
-      <header className="mb-8">
-        <h1 className="mb-2 text-3xl font-bold tracking-tight">
+      <header className="mb-10">
+        <h1 className="mb-3 text-3xl font-bold tracking-tight">
           {product.title}
         </h1>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           {product.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+              className="rounded-lg bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-600"
             >
               {tag}
             </span>
@@ -43,20 +48,21 @@ export default async function ProductPage({
         </div>
       </header>
 
-      <div className="prose prose-zinc mb-8 max-w-none dark:prose-invert">
-        <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
-          {product.longDescription}
-        </p>
-      </div>
+      <p className="mb-10 text-base leading-relaxed text-zinc-600">
+        {product.longDescription}
+      </p>
 
       {product.link && (
         <a
           href={product.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex h-10 items-center rounded-lg bg-zinc-900 px-5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className="inline-flex h-10 items-center gap-2 rounded-xl bg-zinc-900 px-5 text-sm font-medium text-white transition-all hover:bg-zinc-700 active:scale-95"
         >
-          View Project &rarr;
+          View Project
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="stroke-current">
+            <path d="M6 4L10 8L6 12" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </a>
       )}
     </div>

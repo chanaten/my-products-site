@@ -27,16 +27,19 @@ export default async function BlogPost({
     <article className="mx-auto max-w-2xl px-6 py-16">
       <Link
         href="/blog"
-        className="mb-8 inline-flex text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+        className="mb-8 inline-flex items-center gap-1 text-sm text-zinc-400 transition-colors hover:text-zinc-900"
       >
-        &larr; Back to blog
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="stroke-current">
+          <path d="M10 12L6 8L10 4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        Back
       </Link>
-      <header className="mb-8">
+      <header className="mb-10">
         <h1 className="mb-2 text-3xl font-bold tracking-tight">
           {meta.title}
         </h1>
         {meta.date && (
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="text-sm text-zinc-400">
             {new Date(meta.date).toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",
@@ -45,7 +48,7 @@ export default async function BlogPost({
           </p>
         )}
       </header>
-      <div className="prose prose-zinc max-w-none dark:prose-invert">
+      <div className="prose prose-zinc max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-zinc-900 prose-a:underline prose-a:underline-offset-2 prose-a:decoration-zinc-300 hover:prose-a:decoration-zinc-900 prose-code:rounded-lg prose-code:bg-zinc-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:text-sm prose-code:font-normal prose-pre:rounded-xl prose-pre:border prose-pre:border-zinc-200/60 prose-pre:bg-white prose-img:rounded-xl">
         {content}
       </div>
     </article>
