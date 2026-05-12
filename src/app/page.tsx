@@ -1,9 +1,8 @@
 import ProductCard from "@/components/ProductCard"
-import { getProducts, getFeaturedProducts } from "@/lib/products"
+import { getProducts } from "@/lib/products"
 
 export default function Home() {
   const products = getProducts()
-  const featured = getFeaturedProducts()
 
   return (
     <>
@@ -31,12 +30,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-2xl px-6 pb-24">
+      <section className="mx-auto max-w-5xl px-6 pb-24">
         <h2 className="mb-8 text-2xl font-bold tracking-tight">Projects</h2>
-        <div className="space-y-8">
+        <div className="grid gap-6 sm:grid-cols-2">
           {products.map((product, i) => (
             <div key={product.slug} className="animate-fade-in-up" style={{ animationDelay: `${0.1 + i * 0.1}s` }}>
-              <ProductCard product={product} />
+              <ProductCard product={product} index={i} />
             </div>
           ))}
         </div>
